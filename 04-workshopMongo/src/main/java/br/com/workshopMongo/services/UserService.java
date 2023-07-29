@@ -3,8 +3,10 @@ package br.com.workshopMongo.services;
 import br.com.workshopMongo.domain.User;
 import br.com.workshopMongo.dto.UserDTO;
 import br.com.workshopMongo.repositories.UserRepository;
+import br.com.workshopMongo.services.exceptions.DatabaseException;
 import br.com.workshopMongo.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +29,18 @@ public class UserService {
 
     public User insert(User obj) {
         return repository.insert(obj);
+    }
+
+    public void delete(String id) {
+        try {
+            if (repository.existsById(id)) {
+                repository.deleteById(id);
+            } else {
+                throw new ObjectNotFoundException("Could not find object.");
+            }
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage());
+        }
     }
 
     public User fromDTO(UserDTO userDTO) {
