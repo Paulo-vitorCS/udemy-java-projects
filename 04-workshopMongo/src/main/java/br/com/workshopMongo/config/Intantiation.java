@@ -40,6 +40,9 @@ public class Intantiation implements CommandLineRunner {
         Post p2 = new Post(null, sdf.parse("23/03/2023"), "Bom dia", "Acordei feliz hoje!", new AuthorDTO(u1));
 
         postRepository.saveAll(Arrays.asList(p1, p2));
+
+        u1.getPosts().addAll(Arrays.asList(p1, p2));
+        userRepository.save(u1);
     }
 
 }
