@@ -3,6 +3,7 @@ package br.com.workshopMongo.config;
 import br.com.workshopMongo.domain.Post;
 import br.com.workshopMongo.domain.User;
 import br.com.workshopMongo.dto.AuthorDTO;
+import br.com.workshopMongo.dto.CommentDTO;
 import br.com.workshopMongo.repositories.PostRepository;
 import br.com.workshopMongo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,13 @@ public class Intantiation implements CommandLineRunner {
 
         Post p1 = new Post(null, sdf.parse("21/03/2023"), "Partiu viagem", "Vou viajar para São Paulo. Abraços!", new AuthorDTO(u1));
         Post p2 = new Post(null, sdf.parse("23/03/2023"), "Bom dia", "Acordei feliz hoje!", new AuthorDTO(u1));
+
+        CommentDTO c1 = new CommentDTO("Boa viagem!", sdf.parse("21/03/2018"), new AuthorDTO(u2));
+        CommentDTO c2 = new CommentDTO("Aproveite!", sdf.parse("22/03/2018"), new AuthorDTO(u3));
+        CommentDTO c3 = new CommentDTO("Tenha um ótimo dia!", sdf.parse("23/03/2018"), new AuthorDTO(u2));
+
+        p1.getComments().addAll(Arrays.asList(c1, c2));
+        p2.getComments().addAll(Arrays.asList(c3));
 
         postRepository.saveAll(Arrays.asList(p1, p2));
 
